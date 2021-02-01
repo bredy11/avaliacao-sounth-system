@@ -13,7 +13,7 @@ import com.systemsouth.avaliacaosystemsouth.service.UserService;
 import com.systemsouth.avaliacaosystemsouth.service.VotingService;
 
 @RestController
-@RequestMapping(value = "/voting")
+@RequestMapping(value = "/v1/voting")
 public class VotingController {
 
 	@Autowired

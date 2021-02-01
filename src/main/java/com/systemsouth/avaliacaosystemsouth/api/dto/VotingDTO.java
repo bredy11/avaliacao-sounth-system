@@ -2,9 +2,10 @@ package com.systemsouth.avaliacaosystemsouth.api.dto;
 
 public class VotingDTO {
 
+	 
 	private String vote;
 	private String document;
-	private Long idSchedule;
+	private Long idTopic;
 	
 	public String getDocument() {
 		return document;
@@ -18,11 +19,11 @@ public class VotingDTO {
 	public void setVote(String vote) {
 		this.vote = vote;
 	}
-	public Long getIdSchedule() {
-		return idSchedule;
+	public Long getIdTopic() {
+		return idTopic;
 	}
-	public void setIdSchedule(Long idSchedule) {
-		this.idSchedule = idSchedule;
+	public void setIdTopic(Long idTopic) {
+		this.idTopic = idTopic;
 	}
-	
+	 
 }

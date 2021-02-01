@@ -12,10 +12,11 @@ import com.systemsouth.avaliacaosystemsouth.api.dto.MessageDTO;
 import com.systemsouth.avaliacaosystemsouth.api.dto.ValidateDocumentResponseDTO;
 import com.systemsouth.avaliacaosystemsouth.api.dto.VotingDTO;
 import com.systemsouth.avaliacaosystemsouth.api.enuns.StatusValideteDocument;
-import com.systemsouth.avaliacaosystemsouth.domain.Schedule;
+import com.systemsouth.avaliacaosystemsouth.domain.Topic;
 import com.systemsouth.avaliacaosystemsouth.domain.User;
 import com.systemsouth.avaliacaosystemsouth.domain.Voting;
 import com.systemsouth.avaliacaosystemsouth.exception.handler.InvalidDocumentException;
+import com.systemsouth.avaliacaosystemsouth.exception.handler.RequestInvalidaException;
 import com.systemsouth.avaliacaosystemsouth.exception.handler.VotingNotStartedException;
 import com.systemsouth.avaliacaosystemsouth.facade.IntegrationValidateDocumentImpl;
 import com.systemsouth.avaliacaosystemsouth.repository.VotingRepository;
@@ -27,7 +28,7 @@ public class VotingService {
 	private UserService userService;
 
 	@Autowired
-	private ScheduleService scheduleService;
+	private TopicService topicService;
 
 	@Autowired
 	private VotingRepository votingRepository;
@@ -39,10 +40,11 @@ public class VotingService {
 	private Long durationMax;
 
 	public MessageDTO vote(VotingDTO votingDTO) throws Exception {
-		Schedule schedule = scheduleService.findById(votingDTO.getIdSchedule());
+		validRequest(votingDTO);
+		Topic topic = topicService.findById(votingDTO.getIdTopic());
 
-		if (valideteTimeVoting(schedule.getVotingStart())) {
-			return new MessageDTO(getResultVoting(schedule));
+		if (valideteTimeVoting(topic.getVotingStart())) {
+			return new MessageDTO(getResultVoting(topic));
 		}
 
 		User user = userService.findbyDocument(votingDTO.getDocument());
@@ -50,15 +52,25 @@ public class VotingService {
 			user = createUser(votingDTO);
 		}
 
-		return creatVote(votingDTO, user, schedule);
+		return creatVote(votingDTO, user, topic);
 	}
 
-	private String getResultVoting(Schedule schedule) {
+	private void validRequest(VotingDTO votingDTO) {
+		if (!votingDTO.getVote().equalsIgnoreCase("Sim") && !votingDTO.getVote().equalsIgnoreCase("Não")) {
+			throw new RequestInvalidaException("Request com dados invalidos");
+		}
+		if (votingDTO.getDocument()==null) {
+			throw new RequestInvalidaException("Request com dados invalidos");
+		}
+	}
 
-		int voteNegative = votingRepository.quantVote(schedule.getId(), false);
-		int votePositive = votingRepository.quantVote(schedule.getId(), true);
+	private String getResultVoting(Topic topic) {
 
-		return String.format("Tempo de votação esgotado. Resultado da votação: sim: %d   não: %d",  voteNegative, votePositive);
+		int voteNegative = votingRepository.quantVote(topic.getId(), false);
+		int votePositive = votingRepository.quantVote(topic.getId(), true);
+
+		return String.format("Tempo de votação esgotado. Resultado da votação: sim: %d   não: %d", voteNegative,
+				votePositive);
 	}
 
 	private boolean valideteTimeVoting(LocalDateTime votingStart) {
@@ -72,16 +84,16 @@ public class VotingService {
 		return duration.toMinutes() > durationMax ? true : false;
 	}
 
-	private MessageDTO creatVote(VotingDTO votingDTO, User user, Schedule schedule) {
+	private MessageDTO creatVote(VotingDTO votingDTO, User user, Topic topic) {
 
-		Voting voting = votingRepository.findByUserAndSchedule(user, schedule);
+		Voting voting = votingRepository.findByUserAndTopic(user, topic);
 		if (voting != null) {
 			return new MessageDTO("Usuario ja voto nessa pauta");
 		}
 
 		voting = new Voting();
 		voting.setDateVoting(LocalDateTime.now());
-		voting.setSchedule(schedule);
+		voting.setTopic(topic);
 		voting.setUser(user);
 		voting.setVote(votingDTO.getVote().equalsIgnoreCase("SIM") ? Boolean.TRUE : Boolean.FALSE);
 		votingRepository.save(voting);

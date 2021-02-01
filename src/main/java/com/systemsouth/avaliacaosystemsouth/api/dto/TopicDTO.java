@@ -2,21 +2,21 @@ package com.systemsouth.avaliacaosystemsouth.api.dto;
 
 import java.time.LocalDateTime;
 
-import com.systemsouth.avaliacaosystemsouth.domain.Schedule;
+import com.systemsouth.avaliacaosystemsouth.domain.Topic;
 
-public class ScheduleDTO implements DTO {
+public class TopicDTO implements DTO {
 
 	private Long id;
 	private String text;
 	private LocalDateTime votingStart;
 
-	public ScheduleDTO(Schedule schedule) {
-		this.id = schedule.getId();
-		this.text = schedule.getText();
-		this.votingStart = schedule.getVotingStart();
+	public TopicDTO(Topic topic) {
+		this.id = topic.getId();
+		this.text = topic.getText();
+		this.votingStart = topic.getVotingStart();
 	}
 
-	public ScheduleDTO() {
+	public TopicDTO() {
 	}
 
 	public Long getId() {

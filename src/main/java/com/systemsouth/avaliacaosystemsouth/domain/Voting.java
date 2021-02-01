@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "voting")
+@Table(name = "VOTING")
 public class Voting {
 
 	@Id
@@ -23,8 +23,8 @@ public class Voting {
 	private User user;
 	
 	@OneToOne
-    @JoinColumn(name = "id_schedule")
-	private Schedule schedule;
+    @JoinColumn(name = "id_topic")
+	private Topic topic;
 	
 	private Boolean vote;
 	private LocalDateTime dateVoting;
@@ -37,13 +37,14 @@ public class Voting {
 		this.id = id;
 	}
 
+ 
 
-	public Schedule getSchedule() {
-		return schedule;
+	public Topic getTopic() {
+		return topic;
 	}
 
-	public void setSchedule(Schedule schedule) {
-		this.schedule = schedule;
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 
 	public User getUser() {

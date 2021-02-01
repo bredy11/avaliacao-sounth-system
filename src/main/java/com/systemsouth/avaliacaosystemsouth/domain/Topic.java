@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "schedule")
-public class Schedule {
+@Table(name = "TOPIC")
+public class Topic {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

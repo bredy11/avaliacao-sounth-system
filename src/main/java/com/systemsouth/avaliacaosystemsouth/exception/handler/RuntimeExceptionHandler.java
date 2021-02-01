@@ -32,6 +32,13 @@ public class RuntimeExceptionHandler {
                 .body(new ApiError(1,exception.getMessage(), null));
     }
     
+    @ExceptionHandler(value = RequestInvalidaException.class)
+    public ResponseEntity<ResponseDTO> handle(RequestInvalidaException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                .body(new ApiError(1,exception.getMessage(), null));
+    }
+    
     
     @ExceptionHandler(value = VotingNotStartedException.class)
     public ResponseEntity<ResponseDTO> handle(VotingNotStartedException exception) {
