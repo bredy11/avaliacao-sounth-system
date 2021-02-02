@@ -19,6 +19,13 @@ public class VotingController {
 	@Autowired
 	private VotingService votingService;
 
+	/**
+	 * Cria um voto
+	 * 
+	 * @param votingDTO
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping
 	public ResponseEntity<MessageDTO> polling(@RequestBody VotingDTO votingDTO) throws Exception {
 		return ResponseEntity.ok().body(votingService.vote(votingDTO));

@@ -4,8 +4,7 @@ public class InvalidDocumentException  extends RuntimeException{
 
 	private String message;
 
-	
-	
+	 
 	public InvalidDocumentException(String message) {
 		super();
 		this.message = message;

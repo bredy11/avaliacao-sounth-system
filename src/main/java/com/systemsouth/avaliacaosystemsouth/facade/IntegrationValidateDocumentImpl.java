@@ -11,8 +11,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.systemsouth.avaliacaosystemsouth.api.dto.ValidateDocumentResponseDTO;
 
-
- 
+/**
+ * Integração com o serviço de validação do documento
+ * 
+ * @author rafa1
+ *
+ */
 @Component
 public class IntegrationValidateDocumentImpl implements IntegrationValidateDocument {
 
@@ -22,15 +26,16 @@ public class IntegrationValidateDocumentImpl implements IntegrationValidateDocum
 	@Autowired
 	private RestTemplate restTemplate;
 
+	/**
+	 * Validar cpf
+	 */
 	@Override
 	public ValidateDocumentResponseDTO validateDocument(String document) {
 		String uri = url + document;
-		return restTemplate.exchange(uri, HttpMethod.GET, getAuthHeader(), ValidateDocumentResponseDTO.class)
-				.getBody();
+		return restTemplate.exchange(uri, HttpMethod.GET, getAuthHeader(), ValidateDocumentResponseDTO.class).getBody();
 	}
 
-	
-	private HttpEntity<?> getAuthHeader( ) {
+	private HttpEntity<?> getAuthHeader() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 

@@ -20,6 +20,12 @@ public class CustomRestTemplateConfiguration {
 	@Value("${south.system.read.timeout}")
 	private Long readTimeout;
 
+	/**
+	 * Configuração de resttemplate, e definição de dto unico de erro
+	 * 
+	 * @param restTemplate
+	 * @return
+	 */
 	@Bean
 	@Primary
 	public RestTemplate getRestTemplate(RestTemplateBuilder restTemplate) {

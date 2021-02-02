@@ -3,7 +3,11 @@ package com.systemsouth.avaliacaosystemsouth.exception.handler;
 import org.springframework.http.HttpStatus;
 
 import com.systemsouth.avaliacaosystemsouth.api.dto.ResponseDTO;
-
+/**
+ * Todos os erros da aplicação deve ser retornado esse objeto
+ * @author rafa1
+ *
+ */
 public class ApiError implements ResponseDTO  {
 
     private Integer code;
